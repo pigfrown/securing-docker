@@ -2,7 +2,6 @@ package docker.authz
 
 default allow = false
 
-# Use null here to catch not just "unconfied" but also explicit profiles
 allow {
     not privd
     not host_ns
