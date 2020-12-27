@@ -23,11 +23,11 @@ If you have many users you may need to manually edit /etc/subuid and /etc/subgid
 
 ## Explanations
 
-Docker is secured through 2 mechanisms, enabling username spaces, and through the Open Policy Agent authorisation plugin and associated policy file.
+Docker is secured through 2 mechanisms, enabling user namespaces, and through the Open Policy Agent authorisation plugin and associated policy file.
 
 ### Namespaces
 
-By default users within a docker are run in the default UID/GID range, which means that root (UID 0) in a Docker would map to root (UID 0) on the host. If volumes are shared with the Docker it's possible (depending on what the docker user is being run as, and what that UID maps to on the host) that the container can bypass the normal file permissions of the user executing the container. This can be abused by a malicious Dockerfile, amoungst other things, edit or create new executables with setuid root on the host.
+By default users within a docker are run in the default UID/GID range, which means that root (UID 0) in a Docker would map to root (UID 0) on the host. If volumes are shared with the Docker it's possible (depending on what the docker user is being run as, and what that UID maps to on the host) that the container can bypass the normal file permissions of the user executing the container. This can be abused by a malicious Dockerfile to, amoungst other things, edit or create new executables with setuid root on the host.
 
 To prevent this the user namespaces can be used to remap the internal docker users UID and GID to values that are not shared by users (e.g. root) on the host filesystem. This will restrict a dockers ability to  read or write mounted volumes, unless the host filesystems permissions are set to allow that. This may break development dockers that rely on unfettered access to host volumes, but can be worked around by giving permission on a case by case basis to needed files/directories (principle of least privilege).
 
