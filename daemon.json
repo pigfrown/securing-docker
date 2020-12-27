@@ -1,0 +1,4 @@
+{
+	"userns-remap": "default",
+	"authorization-plugins": ["openpolicyagent/opa-docker-authz-v2:0.4"]
+}
