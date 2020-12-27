@@ -33,7 +33,9 @@ To prevent this the user namespaces can be used to remap the internal docker use
 
 ### Authorisation Plugin
 
-The Open Policy Agent authorisation plugin lets a policy file dictate if a docker is allowed to run, depending on the configuration options the docker is launched with. This can be used to limit every aspect of a dockers execution, but the provided .rego file does the following:
+Through the use of docker --privileged flag, (or through adding capabilities/secure computing profiles), a malicious user on a multi user system can run a container that escapes it's isolation and reads/writes arbitrary devices on the host filesystem, giving the untrusted user effectively root access (https://ericchiang.github.io/post/privileged-containers/).
+
+To mitigate this docker allows plugins to be used to limit the execution of Dockers depending on what options they are configured or launched with. We will use the Open Policy Agent authorisation plugin for this purpose. This can be used to limit every aspect of a dockers execution, but the provided .rego file does the following:
 
 * Prevents dockers using the root user
 * Prevents dockers running with --privileged 
