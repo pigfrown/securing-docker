@@ -10,12 +10,12 @@ After installing docker run.
 ```
 git clone https://github.com/pigfrown/securing-docker
 cd securing-docker
+yes | sudo docker plugin install openpolicyagent/opa-docker-authz-v2:0.4 opa-args="-policy-file /opa/policies/authz.rego"
 sudo cp daemon.json /etc/docker/daemon.json
-docker plugin install openpolicyagent/opa-docker-authz-v2:0.4 opa-args="-policy-file /opa/policies/authz.rego"
 sudo mkdir /etc/docker/policies
 sudo cp authz.rego /etc/docker/policies
-sudo echo dockremap:624288:65536 >> /etc/subuid
-sudo echo dockremap:624288:65536 >> /etc/subgid
+grep dockremap /etc/subuid || sudo echo dockremap:624288:65536 >> /etc/subuid
+grep dockremap /etc/subgid || sudo echo dockremap:624288:65536 >> /etc/subgid
 sudo systemctl restart docker
 ```
 If you have many users you may need to manually edit /etc/subuid and /etc/subgid to ensure there is no overlap in namespaces, e.g. if a user already exists that can map the range starting with 624288, change the value dockremap can map to the start of an unused range.
